@@ -4,11 +4,14 @@
 	$GLOBALS['db'] = mysqli_connect($GLOBALS['host'],$GLOBALS['username'],$GLOBALS['password'],$GLOBALS['database'],$GLOBALS['port']);
 	$GLOBALS['db']->query("SET NAMES 'UTF8'");
 
-	$headers = apache_request_headers();
+	// $headers = apache_request_headers();
 	// $id = "2";
 	// $secret = "3X3dxxH7tLs5ZcP3dIb18U0NQaCAd9tbBc80XANz";
 
-	print_r(apache_response_headers());
+	$headers = getRequestHeaders();
+	foreach ($headers as $header => $value) {
+	    echo "$header: $value <br />\n";
+	}
 	
 	$id = $headers['id'];
 	$secret = $headers['secret'];
