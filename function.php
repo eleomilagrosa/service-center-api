@@ -7,11 +7,7 @@
 	// $headers = apache_request_headers();
 	// $id = "2";
 	// $secret = "3X3dxxH7tLs5ZcP3dIb18U0NQaCAd9tbBc80XANz";
-
-	$headers = getRequestHeaders();
-	foreach ($headers as $header => $value) {
-	    echo "$header: $value <br />\n";
-	}
+	print_r(apache_response_headers());
 	
 	$id = $headers['id'];
 	$secret = $headers['secret'];
