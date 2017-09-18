@@ -5,18 +5,18 @@
 
 	if($get_list_type == 1){
 		if($_GET['station_id'] == 0){
-			$accounts = get_accounts();
+			$accounts = get_accounts($_GET['name']);
 		}else{
-			$accounts = get_accounts_by_station_id($_GET['station_id']);
+			$accounts = get_accounts_by_station_id($_GET['station_id'],$_GET['name']);
 		}
 	}else if($get_list_type == 2){
 		if($_GET['station_id'] == 0){
-			$accounts = get_accounts_to_be_approved();
+			$accounts = get_accounts_to_be_approved($_GET['name']);
 		}else{
-			$accounts = get_accounts_to_be_approved_by_station_id($_GET['station_id']);
+			$accounts = get_accounts_to_be_approved_by_station_id($_GET['station_id'],$_GET['name']);
 		}
 	}else if($get_list_type == 3){
-		$accounts = get_admins();
+		$accounts = get_admins($_GET['name']);
 	}
 	
 	if($accounts->num_rows == 0){

@@ -48,28 +48,28 @@
 		return mysqli_query($GLOBALS['db'],"Select * from accounts where id = $id");
 	}
 
-	function get_accounts_to_be_approved(){
-		return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NULL");
+	function get_accounts_to_be_approved($name){
+		return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NULL and (first_name like '%$name%' or last_name like '%$name%')");
 	}
 
-	function get_accounts_to_be_approved_by_station_id($station_id){
-		return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NULL and station_id = $station_id");
+	function get_accounts_to_be_approved_by_station_id($station_id,$name){
+		return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NULL and station_id = $station_id and (first_name like '%$name%' or last_name like '%$name%')");
 	}
 
-	function get_accounts(){
-		return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NOT NULL and is_main_branch = 0");
+	function get_accounts($name){
+		return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NOT NULL and is_main_branch = 0 and (first_name like '%$name%' or last_name like '%$name%')");
 	}
 
-	function get_accounts_by_station_id($station_id){
-		return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NOT NULL and is_main_branch = 0 and and station_id = $station_id");
+	function get_accounts_by_station_id($station_id,$name){
+		return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NOT NULL and is_main_branch = 0 and station_id = $station_id and (first_name like '%$name%' or last_name like '%$name%')");
 	}
 
 	function get_admins(){
-		return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NOT NULL and is_main_branch = 1");
+		return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NOT NULL and is_main_branch = 1 and (first_name like '%$name%' or last_name like '%$name%')");
 	}
 
-	function get_stations(){
-		return mysqli_query($GLOBALS['db'],"Select * from stations");
+	function get_stations($station_name){
+		return mysqli_query($GLOBALS['db'],"Select * from stations where station_name like '%$station_name%'");
 	}
 	function create_station($station_name,$station_prefix,$station_address,$station_number,$station_description){
 		$query = "insert into stations(`station_name`,`station_prefix`,`station_address`,`station_number`,`station_description`,`date_created`) values('$station_name','$station_prefix','$station_address','$station_number','$station_description',now())";
@@ -98,7 +98,7 @@
 	}
 
 	function create_customers($first_name,$last_name,$address,$phone_no,$email,$account_id,$station_id){
-		$result = mysqli_query($GLOBALS['db'],"insert into customers(`first_name`,`last_name`,`address`,`phone_no`,`email`,`account_id`,`station_id`,`date_created`) values('$first_name','$last_name','$address','$phone_no','$email','$account_id',now(),'$station_id')");
+		$result = mysqli_query($GLOBALS['db'],"insert into customers(`first_name`,`last_name`,`address`,`phone_no`,`email`,`account_id`,`station_id`,`date_created`) values('$first_name','$last_name','$address','$phone_no','$email','$account_id','$station_id',now())");
 		if($result){
 			return mysqli_insert_id($GLOBALS['db']);
 		}else{
@@ -308,28 +308,28 @@
 		return mysqli_query($GLOBALS['db'],"Select * from job_orders where id = '$id'");
 	}
 
-	function get_job_order_by_show_open_orders(){
-		return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id != '8'");
+	function get_job_order_by_show_open_orders($id){
+		return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id != '8' and id like '%$id%'");
 	}
 
 	function get_job_order_by_show_open_orders_by_station_id($station_id){
-		return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id != '8' and station_id = $station_id");
+		return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id != '8' and station_id = $station_id and id like '%$id%'");
 	}
 
-	function get_job_order_by_history(){
-		return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id = '8'");
+	function get_job_order_by_history($id){
+		return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id = '8' and id like '%$id%'");
 	}
 
-	function get_job_order_by_history_by_station_id($station_id){
-		return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id = '8' and station_id = $station_id");
+	function get_job_order_by_history_by_station_id($station_id,$id){
+		return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id = '8' and station_id = $station_id and id like '%$id%'");
 	}
 
-	function get_job_order_by_customer_id($customer_id){
-		return mysqli_query($GLOBALS['db'],"Select * from job_orders where customer_id = '$customer_id'");
+	function get_job_order_by_customer_id($customer_id,$id){
+		return mysqli_query($GLOBALS['db'],"Select * from job_orders where customer_id = '$customer_id' and id like '%$id%'");
 	}
 
-	function get_job_order_by_customer_id_by_station_id($customer_id, $station_id){
-		return mysqli_query($GLOBALS['db'],"Select * from job_orders where customer_id = '$customer_id' and station_id = $station_id");
+	function get_job_order_by_customer_id_by_station_id($customer_id, $station_id, $id){
+		return mysqli_query($GLOBALS['db'],"Select * from job_orders where customer_id = '$customer_id' and station_id = $station_id and id like '%$id%'");
 	}
 
 	function get_job_order_diagnosis_by_id($id){

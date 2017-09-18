@@ -1,6 +1,6 @@
 <?php
 
-	$host = '192.168.0.106';
+	$host = '192.168.0.104';
 	$username = 'admin';
 	$password = '21posincbibiza4012006';
 	$database = 'servicecenter';

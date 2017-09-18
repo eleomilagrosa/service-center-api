@@ -1,7 +1,7 @@
 <?php  
 	include("function.php");	
 
-	$stations = get_stations();	
+	$stations = get_stations($_GET['name']);	
 	
 	if($stations->num_rows == 0){
 		$response['success'] = 0;
