@@ -8,6 +8,8 @@
 	// $id = "2";
 	// $secret = "3X3dxxH7tLs5ZcP3dIb18U0NQaCAd9tbBc80XANz";
 
+	print_r(apache_response_headers());
+	
 	$id = $headers['id'];
 	$secret = $headers['secret'];
 
