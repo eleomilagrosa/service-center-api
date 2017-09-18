@@ -1,11 +1,18 @@
 <?php
 
-	$host = '192.168.0.104';
-	$username = 'admin';
-	$password = '21posincbibiza4012006';
-	$database = 'servicecenter';
-	$port = 2121;
+	$host = 'fusiotec.com';
+	$username = 'sunilman_dev';
+	$password = 'eleojasmil123';
+	$database = 'sunilman_servicecenter';
+	$port = 3306;
 	$check_connection = 'false';
+
+	// $host = '192.168.0.104';
+	// $username = 'admin';
+	// $password = '21posincbibiza4012006';
+	// $database = 'servicecenter';
+	// $port = 2121;
+	// $check_connection = 'false';
 
 	/*$method = $_SERVER['REQUEST_METHOD'];
 
