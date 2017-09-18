@@ -13,7 +13,7 @@
 
 	$client = mysqli_query($GLOBALS['db'],"Select * from oauth_clients where id = $id and secret = '$secret'");
 	if($client->num_rows == 0){ 
-	    header("HTTP/1.1 401 Unauthorized");
+	    header("HTTP/1.1 401 Unauthorized" . "Select * from oauth_clients where id = $id and secret = '$secret'");
 		exit;
 	}
 
