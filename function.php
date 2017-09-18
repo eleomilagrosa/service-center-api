@@ -7,13 +7,10 @@
 	// $headers = apache_request_headers();
 	// $id = "2";
 	// $secret = "3X3dxxH7tLs5ZcP3dIb18U0NQaCAd9tbBc80XANz";
-	foreach (getallheaders() as $name => $value) 
-	{
-	    echo "$name: $valuen";
-	}
+	var_dump($_SERVER);
 	
-	$id = $headers['id'];
-	$secret = $headers['secret'];
+	// $id = $headers['id'];
+	// $secret = $headers['secret'];
 
 	$client = mysqli_query($GLOBALS['db'],"Select * from oauth_clients where id = $id and secret = '$secret'");
 	if($client->num_rows == 0){ 
