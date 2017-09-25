@@ -49,24 +49,54 @@
 		return mysqli_query($GLOBALS['db'],"Select * from accounts where id = $id");
 	}
 
-	function get_accounts_to_be_approved($name){
-		return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NULL and (first_name like '%$name%' or last_name like '%$name%')");
+	function get_accounts_to_be_approved($name,$date,$direction){
+		if($direction == 1){
+			return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NULL and (first_name like '%$name%' or last_name like '%$name%') and date_modified <= '$date' ORDER BY date_modified DESC limit 10");
+		}else if($direction == 2){
+			return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NULL and (first_name like '%$name%' or last_name like '%$name%') and date_modified >= '$date' ORDER BY date_modified DESC");
+		}else if($direction == 0){
+			return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NULL and (first_name like '%$name%' or last_name like '%$name%') ORDER BY date_modified DESC limit 10");
+		}
 	}
 
-	function get_accounts_to_be_approved_by_station_id($station_id,$name){
-		return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NULL and station_id = $station_id and (first_name like '%$name%' or last_name like '%$name%')");
+	function get_accounts_to_be_approved_by_station_id($station_id,$name,$date,$direction){
+		if($direction == 1){
+			return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NULL and station_id = $station_id and (first_name like '%$name%' or last_name like '%$name%') and date_modified <= '$date' ORDER BY date_modified DESC limit 10");
+		}else if($direction == 2){
+			return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NULL and station_id = $station_id and (first_name like '%$name%' or last_name like '%$name%') and date_modified >= '$date' ORDER BY date_modified DESC");
+		}else if($direction == 0){
+			return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NULL and station_id = $station_id and (first_name like '%$name%' or last_name like '%$name%') ORDER BY date_modified DESC limit 10");
+		}
 	}
 
-	function get_accounts($name){
-		return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NOT NULL and is_main_branch = 0 and (first_name like '%$name%' or last_name like '%$name%')");
+	function get_accounts($name,$date,$direction){
+		if($direction == 1){
+			return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NOT NULL and is_main_branch = 0 and (first_name like '%$name%' or last_name like '%$name%') and date_modified <= '$date' ORDER BY date_modified DESC limit 10");
+		}else if($direction == 2){
+			return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NOT NULL and is_main_branch = 0 and (first_name like '%$name%' or last_name like '%$name%') and date_modified >= '$date' ORDER BY date_modified DESC");
+		}else if($direction == 0){
+			return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NOT NULL and is_main_branch = 0 and (first_name like '%$name%' or last_name like '%$name%') ORDER BY date_modified DESC limit 10");
+		}
 	}
 
-	function get_accounts_by_station_id($station_id,$name){
-		return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NOT NULL and is_main_branch = 0 and station_id = $station_id and (first_name like '%$name%' or last_name like '%$name%')");
+	function get_accounts_by_station_id($station_id,$name,$date,$direction){
+		if($direction == 1){
+			return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NOT NULL and is_main_branch = 0 and station_id = $station_id and (first_name like '%$name%' or last_name like '%$name%') and date_modified <= '$date' ORDER BY date_modified DESC limit 10");
+		}else if($direction == 2){
+			return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NOT NULL and is_main_branch = 0 and station_id = $station_id and (first_name like '%$name%' or last_name like '%$name%') and date_modified >= '$date' ORDER BY date_modified DESC");
+		}else if($direction == 0){
+			return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NOT NULL and is_main_branch = 0 and station_id = $station_id and (first_name like '%$name%' or last_name like '%$name%') ORDER BY date_modified DESC limit 10");
+		}
 	}
 
-	function get_admins(){
-		return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NOT NULL and is_main_branch = 1 and (first_name like '%$name%' or last_name like '%$name%')");
+	function get_admins($name,$date,$direction){
+		if($direction == 1){
+			return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NOT NULL and is_main_branch = 1 and (first_name like '%$name%' or last_name like '%$name%') and date_modified <= '$date' ORDER BY date_modified DESC limit 10");
+		}else if($direction == 2){
+			return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NOT NULL and is_main_branch = 1 and (first_name like '%$name%' or last_name like '%$name%') and date_modified >= '$date' ORDER BY date_modified DESC");
+		}else if($direction == 0){
+			return mysqli_query($GLOBALS['db'],"Select * from accounts where date_approved IS NOT NULL and is_main_branch = 1 and (first_name like '%$name%' or last_name like '%$name%') ORDER BY date_modified DESC limit 10");
+		}
 	}
 
 	function get_stations($station_name){
@@ -91,11 +121,23 @@
 		return mysqli_query($GLOBALS['db'],"Select * from stations where id = $id");
 	}
 
-	function get_customers(){
-		return mysqli_query($GLOBALS['db'],"Select * from customers");
+	function get_customers($name, $date,$direction){
+		if($direction == 1){
+			return mysqli_query($GLOBALS['db'],"Select * from customers where (last_name like '%$name%' or first_name like '%$name%') and date_modified < '$date' ORDER BY date_modified DESC limit 10");
+		}else if($direction == 2){
+			return mysqli_query($GLOBALS['db'],"Select * from customers where (last_name like '%$name%' or first_name like '%$name%') and date_modified > '$date'  ORDER BY date_modified DESC");				
+		}else if($direction == 0){
+			return mysqli_query($GLOBALS['db'],"Select * from customers where last_name like '%$name%' or first_name like '%$name%' ORDER BY date_modified DESC limit 10");
+		}
 	}
-	function get_customers_by_station_id($station_id){
-		return mysqli_query($GLOBALS['db'],"Select * from customers where station_id = $station_id");
+	function get_customers_by_station_id($name, $station_id,$date,$direction){
+		if($direction == 1){
+			return mysqli_query($GLOBALS['db'],"Select * from customers where (last_name like '%$name%' or first_name like '%$name%') and station_id = $station_id and date_modified < '$date' ORDER BY date_modified DESC limit 10");
+		}else if($direction == 2){
+			return mysqli_query($GLOBALS['db'],"Select * from customers where (last_name like '%$name%' or first_name like '%$name%') and station_id = $station_id and date_modified > '$date' ORDER BY date_modified DESC");
+		}else if($direction == 0){
+			return mysqli_query($GLOBALS['db'],"Select * from customers where (last_name like '%$name%' or first_name like '%$name%') and station_id = $station_id ORDER BY date_modified DESC limit 10");
+		}
 	}
 
 	function create_customers($first_name,$last_name,$address,$phone_no,$email,$account_id,$station_id){
@@ -309,28 +351,64 @@
 		return mysqli_query($GLOBALS['db'],"Select * from job_orders where id = '$id'");
 	}
 
-	function get_job_order_by_show_open_orders($id){
-		return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id != '8' and id like '%$id%'");
+	function get_job_order_by_show_open_orders($id,$date,$direction){
+		if($direction == 1){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id != '8' and id like '%$id%' and date_modified < '$date' ORDER BY date_modified DESC limit 10");
+		}else if($direction == 2){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id != '8' and id like '%$id%' and date_modified > '$date'  ORDER BY date_modified DESC");
+		}else if($direction == 0){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id != '8' and id like '%$id%' ORDER BY date_modified DESC limit 10");
+		}
 	}
 
-	function get_job_order_by_show_open_orders_by_station_id($station_id){
-		return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id != '8' and station_id = $station_id and id like '%$id%'");
+	function get_job_order_by_show_open_orders_by_station_id($station_id,$id,$date,$direction){
+		if($direction == 1){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id != '8' and id like '%$id%' and station_id = $station_id and date_modified < '$date' ORDER BY date_modified DESC limit 10");
+		}else if($direction == 2){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id != '8' and id like '%$id%' and station_id = $station_id and date_modified > '$date'  ORDER BY date_modified DESC");
+		}else if($direction == 0){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id != '8' and id like '%$id%' and station_id = $station_id ORDER BY date_modified DESC limit 10");
+		}
 	}
 
-	function get_job_order_by_history($id){
-		return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id = '8' and id like '%$id%'");
+	function get_job_order_by_history($id,$date,$direction){
+		if($direction == 1){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id = '8' and id like '%$id%' and date_modified < '$date' ORDER BY date_modified DESC limit 10");
+		}else if($direction == 2){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id = '8' and id like '%$id%' and date_modified > '$date'  ORDER BY date_modified DESC");
+		}else if($direction == 0){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id = '8' and id like '%$id%' ORDER BY date_modified DESC limit 10");
+		}		
 	}
 
-	function get_job_order_by_history_by_station_id($station_id,$id){
-		return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id = '8' and station_id = $station_id and id like '%$id%'");
+	function get_job_order_by_history_by_station_id($station_id,$id,$date,$direction){
+		if($direction == 1){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id = '8' and id like '%$id%' and station_id = $station_id and date_modified < '$date' ORDER BY date_modified DESC limit 10");
+		}else if($direction == 2){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id = '8' and id like '%$id%' and station_id = $station_id and date_modified > '$date'  ORDER BY date_modified DESC");
+		}else if($direction == 0){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id = '8' and id like '%$id%' and station_id = $station_id ORDER BY date_modified DESC limit 10");
+		}		
 	}
 
-	function get_job_order_by_customer_id($customer_id,$id){
-		return mysqli_query($GLOBALS['db'],"Select * from job_orders where customer_id = '$customer_id' and id like '%$id%'");
+	function get_job_order_by_customer_id($customer_id,$id,$date,$direction){
+		if($direction == 1){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where customer_id = '$customer_id' and id like '%$id%' and date_modified < '$date' ORDER BY date_modified DESC limit 10");
+		}else if($direction == 2){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where customer_id = '$customer_id' and id like '%$id%' and date_modified > '$date'  ORDER BY date_modified DESC");
+		}else if($direction == 0){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where customer_id = '$customer_id' and id like '%$id%' ORDER BY date_modified DESC limit 10");
+		}				
 	}
 
-	function get_job_order_by_customer_id_by_station_id($customer_id, $station_id, $id){
-		return mysqli_query($GLOBALS['db'],"Select * from job_orders where customer_id = '$customer_id' and station_id = $station_id and id like '%$id%'");
+	function get_job_order_by_customer_id_by_station_id($customer_id, $station_id, $id,$date,$direction){
+		if($direction == 1){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where customer_id = '$customer_id' and station_id = $station_id and id like '%$id%' and date_modified < '$date' ORDER BY date_modified DESC limit 10");
+		}else if($direction == 2){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where customer_id = '$customer_id' and station_id = $station_id and id like '%$id%' and date_modified > '$date'  ORDER BY date_modified DESC");
+		}else if($direction == 0){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where customer_id = '$customer_id' and station_id = $station_id and id like '%$id%' ORDER BY date_modified DESC limit 10");
+		}		
 	}
 
 	function get_job_order_diagnosis_by_id($id){
