@@ -1,40 +1,8 @@
 <?php  
 	include("function.php");
 	
-	$get_list_type = addslashes($_GET['get_list_type']);		
+	$job_orders = get_closed_job_order_reports($_GET['date_started'],$_GET['date_ended'],$_GET['station_id']);
 
-	if($get_list_type == 1 || $get_list_type == 4){
-		if($_GET['station_id'] == 0){
-			$job_orders = get_job_order_by_show_open_orders($_GET['id'],$_GET['date'],$_GET['direction']);
-		}else{
-			$job_orders = get_job_order_by_show_open_orders_by_station_id($_GET['station_id'],$_GET['id'],$_GET['date'],$_GET['direction']);
-		}	
-	}else if($get_list_type == 2){
-		if($_GET['station_id'] == 0){
-			$job_orders = get_job_order_by_history($_GET['id'],$_GET['date'],$_GET['direction']);
-		}else{
-			$job_orders = get_job_order_by_history_by_station_id($_GET['station_id'],$_GET['id'],$_GET['date'],$_GET['direction']);
-		}	
-	}else if($get_list_type == 3){
-		if($_GET['station_id'] == 0){
-			$job_orders = get_job_order_by_customer_id($_GET['customer_id'],$_GET['id'],$_GET['date'],$_GET['direction']);
-		}else{
-			$job_orders = get_job_order_by_customer_id_by_station_id($_GET['customer_id'],$_GET['station_id'],$_GET['id'],$_GET['date'],$_GET['direction']);
-		}	
-	}else if($get_list_type == 5){
-		if($_GET['station_id'] == 0){
-			$job_orders = get_job_order_by_serial($_GET['id'],$_GET['date'],$_GET['direction']);
-		}else{
-			$job_orders = get_job_order_by_serial_by_station_id($_GET['station_id'],$_GET['id'],$_GET['date'],$_GET['direction']);
-		}	
-	}else if($get_list_type == 6){
-		if($_GET['station_id'] == 0){
-			$job_orders = get_job_order_by_status($_GET['id'],$_GET['date'],$_GET['direction']);
-		}else{
-			$job_orders = get_job_order_by_status_by_station_id($_GET['station_id'],$_GET['id'],$_GET['date'],$_GET['direction']);
-		}	
-	}
-	
 	if($job_orders->num_rows == 0){
 		$response['success'] = 0;
 		$response['message'] = "Failed to retrieve id";

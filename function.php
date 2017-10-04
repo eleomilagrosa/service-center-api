@@ -214,8 +214,9 @@
 	}
 
 	function update_job_order_status($job_order_id,$status_id,$repair_status){
+			$concat_text = $status_id == 8 ? "now()" : "NULL";
 			$result = mysqli_query($GLOBALS['db'],"Update job_orders
-				set `status_id` = '$status_id' , repair_status = '$repair_status' where id = '$job_order_id'");
+				set `status_id` = '$status_id' , repair_status = '$repair_status', date_time_closed = $concat_text where id = '$job_order_id'");
 	}
 
 	function create_job_order_shipping($job_order_id, $shipping_no, $shipping_note, $account_id){
@@ -411,6 +412,53 @@
 		}		
 	}
 
+
+	function get_job_order_by_serial($id, $date,$direction){
+		if($direction == 1){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where serial_number = '$id' and date_modified < '$date' ORDER BY date_modified DESC limit 10");
+		}else if($direction == 2){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where serial_number = '$id' and date_modified > '$date'  ORDER BY date_modified DESC");
+		}else if($direction == 0){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where serial_number = '$id' ORDER BY date_modified DESC limit 10");
+		}		
+	}
+
+	function get_job_order_by_serial_by_station_id($station_id, $id, $date,$direction){
+		if($direction == 1){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where station_id = $station_id and serial_number = '$id' and date_modified < '$date' ORDER BY date_modified DESC limit 10");
+		}else if($direction == 2){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where station_id = $station_id and serial_number = '$id' and date_modified > '$date'  ORDER BY date_modified DESC");
+		}else if($direction == 0){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where station_id = $station_id and serial_number = '$id' ORDER BY date_modified DESC limit 10");
+		}		
+	}
+	function get_job_order_by_status($id, $date,$direction){
+		if($direction == 1){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id = '$id' and date_modified < '$date' ORDER BY date_modified DESC limit 10");
+		}else if($direction == 2){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id = '$id' and date_modified > '$date'  ORDER BY date_modified DESC");
+		}else if($direction == 0){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where status_id = '$id' ORDER BY date_modified DESC limit 10");
+		}		
+	}
+
+	function get_job_order_by_status_by_station_id($station_id, $id, $date,$direction){
+		if($direction == 1){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where station_id = $station_id and status_id = '$id' and date_modified < '$date' ORDER BY date_modified DESC limit 10");
+		}else if($direction == 2){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where station_id = $station_id and status_id = '$id' and date_modified > '$date'  ORDER BY date_modified DESC");
+		}else if($direction == 0){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where station_id = $station_id and status_id = '$id' ORDER BY date_modified DESC limit 10");
+		}		
+	}	
+
+	function get_closed_job_order_reports($start_date,$end_date,$station_id){
+		if($station_id == 0){
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where date_time_closed is not null and DATE(date_time_closed) BETWEEN '$start_date'  AND '$end_date'");
+		}else{
+			return mysqli_query($GLOBALS['db'],"Select * from job_orders where date_time_closed is not null and station_id = $station_id and DATE(date_time_closed) BETWEEN '$start_date' AND '$end_date'");
+		}
+	}
 	function get_job_order_diagnosis_by_id($id){
 		return mysqli_query($GLOBALS['db'],"Select * from job_order_diagnosis where job_order_id = '$id'");
 	}
