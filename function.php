@@ -160,7 +160,7 @@
 	}
 
 	function change_password($id,$password){
- 		mysqli_query($GLOBALS['db'],"update acco set `password` = md5('$password') where id = $id");
+ 		mysqli_query($GLOBALS['db'],"update accounts set `password` = md5('$password') where id = $id");
 	}
 
 	function login_credentials($username, $password){
